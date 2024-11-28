@@ -40,6 +40,8 @@ import (
 
 	"github.com/gohugoio/hugo/markup/converter"
 	"github.com/gohugoio/hugo/markup/tableofcontents"
+
+	katex "github.com/FurqanSoftware/goldmark-katex"
 )
 
 const (
@@ -161,6 +163,10 @@ func newMarkdown(pcfg converter.ProviderConfig) goldmark.Markdown {
 
 	if cfg.Extensions.Footnote {
 		extensions = append(extensions, extension.Footnote)
+	}
+
+	if cfg.Extensions.Katex {
+		extensions = append(extensions, &katex.Extender{})
 	}
 
 	if cfg.Extensions.CJK.Enable {
