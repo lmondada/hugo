@@ -16,6 +16,7 @@ package goldmark
 
 import (
 	"bytes"
+	"fmt"
 
 	"github.com/gohugoio/hugo-goldmark-extensions/extras"
 	"github.com/gohugoio/hugo/markup/goldmark/blockquotes"
@@ -28,6 +29,7 @@ import (
 	"github.com/gohugoio/hugo/markup/goldmark/passthrough"
 	"github.com/gohugoio/hugo/markup/goldmark/tables"
 	"github.com/yuin/goldmark/util"
+	"golang.org/x/exp/rand"
 
 	"github.com/yuin/goldmark"
 	emoji "github.com/yuin/goldmark-emoji"
@@ -42,6 +44,7 @@ import (
 	"github.com/gohugoio/hugo/markup/tableofcontents"
 
 	katex "github.com/FurqanSoftware/goldmark-katex"
+	gast "github.com/yuin/goldmark/ast"
 )
 
 const (
@@ -162,7 +165,15 @@ func newMarkdown(pcfg converter.ProviderConfig) goldmark.Markdown {
 	}
 
 	if cfg.Extensions.Footnote {
-		extensions = append(extensions, extension.Footnote)
+		extensions = append(extensions, extension.NewFootnote(
+			extension.WithFootnoteIDPrefixFunction(func(n gast.Node) []byte {
+				v, ok := n.OwnerDocument().Meta()["footnote-prefix"]
+				if ok {
+					return util.StringToReadOnlyBytes(v.(string))
+				}
+				return nil
+			}),
+		))
 	}
 
 	if cfg.Extensions.Katex {
@@ -247,6 +258,10 @@ type tableOfContentsProvider interface {
 	TableOfContents() *tableofcontents.Fragments
 }
 
+func randID() string {
+	return fmt.Sprintf("%08x", rand.Int63n(1<<32))[:8]
+}
+
 func (c *goldmarkConverter) Parse(ctx converter.RenderContext) (converter.ResultParse, error) {
 	pctx := c.newParserContext(ctx)
 	reader := text.NewReader(ctx.Src)
@@ -255,6 +270,8 @@ func (c *goldmarkConverter) Parse(ctx converter.RenderContext) (converter.Result
 		reader,
 		parser.WithContext(pctx),
 	)
+	// Generate a random document-wide footnote-prefix
+	doc.OwnerDocument().Meta()["footnote-prefix"] = randID()
 
 	return parserResult{
 		doc: doc,
