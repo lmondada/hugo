@@ -44,6 +44,7 @@ import (
 	"github.com/gohugoio/hugo/markup/tableofcontents"
 
 	katex "github.com/FurqanSoftware/goldmark-katex"
+	bibtex "github.com/lmondada/goldmark-bibtex"
 	gast "github.com/yuin/goldmark/ast"
 )
 
@@ -178,6 +179,14 @@ func newMarkdown(pcfg converter.ProviderConfig) goldmark.Markdown {
 
 	if cfg.Extensions.Katex {
 		extensions = append(extensions, &katex.Extender{})
+	}
+
+	if cfg.Extensions.Bibtex.Enable {
+		bib, err := bibtex.New(cfg.Extensions.Bibtex.BibtexPath)
+		if err != nil {
+			panic(err.Error())
+		}
+		extensions = append(extensions, bib)
 	}
 
 	if cfg.Extensions.CJK.Enable {

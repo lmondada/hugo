@@ -2,6 +2,7 @@ module github.com/gohugoio/hugo
 
 require (
 	github.com/BurntSushi/locker v0.0.0-20171006230638-a6e239ea1c69
+	github.com/FurqanSoftware/goldmark-katex v0.0.0-20230820031700-1c400212c1e1
 	github.com/alecthomas/chroma/v2 v2.14.0
 	github.com/armon/go-radix v1.0.1-0.20221118154546-54df44f2176c
 	github.com/aws/aws-sdk-go-v2 v1.32.4
@@ -49,6 +50,7 @@ require (
 	github.com/jdkato/prose v1.2.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/kyokomi/emoji/v2 v2.2.13
+	github.com/lmondada/goldmark-bibtex v0.0.0-20250113105254-719819741cf3
 	github.com/magefile/mage v1.15.0
 	github.com/makeworld-the-better-one/dither/v2 v2.4.0
 	github.com/marekm4/color-extractor v1.2.1
@@ -139,6 +141,7 @@ require (
 	github.com/invopop/yaml v0.2.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
+	github.com/jschaf/bibtex v0.0.0-20250112212027-d97aa8eba549 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lithdew/quickjs v0.0.0-20200714182134-aaa42285c9d2 // indirect
@@ -171,4 +174,4 @@ require (
 	software.sslmate.com/src/go-pkcs12 v0.2.0 // indirect
 )
 
-go 1.22.6
+go 1.23.3

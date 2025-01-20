@@ -140,8 +140,9 @@ type Extensions struct {
 	TaskList        bool
 	CJK             CJK
 
-	// Custom extension
-	Katex bool
+	// Custom extensions
+	Katex  bool
+	Bibtex Bibtex
 }
 
 // Typographer holds typographer configuration.
@@ -209,6 +210,14 @@ type Passthrough struct {
 
 	// The delimiters to use for inline and block passthroughs.
 	Delimiters DelimitersConfig
+}
+
+type Bibtex struct {
+	// Whether to enable the extension
+	Enable bool
+
+	// The path to the bibtex file
+	BibtexPath string
 }
 
 type DelimitersConfig struct {
